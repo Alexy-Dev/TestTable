@@ -1,0 +1,20 @@
+{
+   "requests": [
+    {
+      "name": "STRING",
+      "id": 1
+    },
+    {
+      "name": "NUM",
+      "id": 2
+    },
+    {
+      "name": "WORD",
+      "id": 3
+    },
+    {
+      "name": "NUMBER",
+      "id": 4
+    } 
+  ]
+}

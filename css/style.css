@@ -1,0 +1,37 @@
+.box__table{width: 400px;height: auto;position: center;background-color:aquamarine;display: flexbox; margin: 0 auto;border-radius:6px}
+.add__row button{border-radius:6px;}
+.form__row{display: none;}
+.row__input{display:block;margin:10px 10px;border-radius:6px;font-size:18px;text-align:center;outline:0}
+.row__close{display: block;margin:10px 10px 10px auto;border-radius:6px;}
+.modal{position:fixed;top:0;left:0;z-index:1050;display:none;width:100%;height:100%;overflow:hidden;background-color:rgba(0,0,0,.5)}
+.modal__dialog{max-width:500px;margin:40px auto}
+.modal__content{position:relative;width:100%;padding:40px;background-color:#fff;border:1px solid rgba(0,0,0,.2);border-radius:10px;max-height:80vh;overflow-y:auto}
+.modal__close{position:absolute;top:8px;right:14px;font-size:30px;color:#000;opacity:.5;font-weight:700;border:none;background-color:transparent;cursor:pointer}
+.modal__title{text-align:center;font-size:22px;text-transform:uppercase}
+.modal__input{display:block;margin:10px 10px;border-radius:6px;font-size:18px;text-align:center;outline:0}
+.modal__btn{display:block;width:255px;margin:0 auto;border-radius:6px;}
+.show{display:block}
+.hide{display:none}
+.fade{animation-name: fade;animation-duration: 1.5s;}@keyframes fade{from{opacity: 0.1;}to{opacity: 1;}}
+
+.promo__interactive{display:-webkit-box;display:-ms-flexbox;display:flex}
+.promo__interactive>div{width:50%;padding:30px 0 0 60px}
+.promo__interactive-title{display:block;position:flex;margin:40px auto;font-weight:bold;font-size:24px;line-height:28px;color:#000000}
+.promo__interactive-title:after{content:'';display:block;width:33%;height:2px;background-color:#000}
+.promo__interactive-list{list-style-type:none;margin-top:35px;display:block;}
+.promo__interactive-item{display:block;position:relative;font-weight:300;font-size:20px;line-height:18px;color:#000000;margin-bottom:15px;padding-right:40px;text-transform:uppercase}
+.promo__interactive-item span{display:block;position:absolute;left:-30px;top:50%;-webkit-transform:translateY(-50%);transform:translateY(-50%);width:20px;height:20px}
+.promo__interactive-item:before{content:'';position:absolute;bottom:-5px;display:block;width:calc(100% - 40px);height:2px;background-color:#FFD500}
+.promo__interactive-item:hover .delete{content:'';display:block;position:absolute;right:0px;top:50%;-webkit-transform:translateY(-50%);transform:translateY(-50%);width:20px;height:20px;cursor:pointer}
+.promo__interactive .add .promo__interactive-title{margin-bottom:25px}
+.promo__interactive .add span{display:block;margin:10px 0;font-weight:bold;font-size:16px;line-height:16px;color:#000000}
+.promo__interactive .add .yes{display:inline;margin-left:10px}
+.promo__interactive .add input[type="text"]{width:270px;height:45px;line-height:50px;font-size:16px;background:rgba(196,196,196,0.29);border:1px solid rgba(0,0,0,0.19);padding:0 15px;outline:none;border-radius:4px}
+.promo__interactive .add button{display:block;margin-top:15px;width:170px;height:45px;background:#FFD500;font-weight:bold;font-size:14px;line-height:14px;color:#FFFFFF;border:none;outline:none;cursor:pointer}
+.promo__interactive .add button:active{-webkit-transform:scale(0.95);transform:scale(0.95)}
+.promo__adv{background:#212121;width:300px;height:100%}
+.promo__adv-title{font-weight:bold;font-size:18px;line-height:21px;color:#FFD500;margin:20px 0;text-align:center}
+.promo__adv img{width:100%;margin-bottom:10px}
+.btn{cursor: pointer;}
+
+.calculating__result{display: block; margin: 20px auto;}
