@@ -67,7 +67,7 @@ window.addEventListener('DOMContentLoaded', () => {
         const returnRowDB = JSON.parse(localStorage.getItem("name"));
         if (localStorage.getItem("name") != []) {
             // rowDB.rows = [returnRowDB];
-            rowDB.rows.splice(rowDB.rows);
+            // rowDB.rows.splice(rowDB.rows);
             rowDB.rows.push(returnRowDB);  //метод добавления в объект
             console.log(rowDB);
         }
@@ -84,7 +84,7 @@ window.addEventListener('DOMContentLoaded', () => {
         let myRow = addInput.value;
 
         // if (id.item % 2 == 0) {
-        //     input.type = 'number';
+        //     inputAdd.type = 'number';
         // }
             
         if (myRow) {                        //проверка условия булеановым значением   
@@ -94,9 +94,6 @@ window.addEventListener('DOMContentLoaded', () => {
             }
 
             rowDB.rows.push(myRow);  //метод добавления в объект
-            
-            // console.log(localStorage.getItem("name"));
-    
             createRowsList(rowDB.rows, tableList);
             const serialRowDB = JSON.stringify(rowDB);
             localStorage.setItem("name", serialRowDB);   
