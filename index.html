@@ -14,24 +14,22 @@
         <div>
        <div class="promo__interactive-title">TestTable</div>
             <ul class="btn promo__interactive-list">
-                <div class="btn"><li class="promo__interactive-item">String                                      
+                <li data-modal class="promo__interactive-item btn">String                                      
+                    <div class="delete">&times;</div>
+                </li>                               
+                <li data-modal class="promo__interactive-item btn">Num                    
+                    <div class="delete">&times;</div>
                 </li>
-                </div>
-                <div class="delete">&times;</div>                  
-                <li class="promo__interactive-item btn">Num                    
+                <li data-modal class="promo__interactive-item btn">Word
+                    <div class="delete">&times;</div>
                 </li>
-                <div class="delete">&times;</div>
-                <li class="promo__interactive-item btn">Word
-                </li>
-                <div class="delete">&times;</div>
-                <li class="promo__interactive-item btn">Number                    
-                </li>
-                <div class="delete">&times;</div>              
+                <li data-modal class="promo__interactive-item btn">Number                    
+                    <div class="delete">&times;</div>
+                </li>            
             </ul>
             <div  class="calculating__result"style="margin-left: 100px;"><p3>Sum</p3><span style="font-size: 22pt;">8</span></div>
         </div>
-    </div>
-    
+    </div>    
      
 
     <div class="modal">
@@ -39,7 +37,7 @@
             <div class="modal__content">
                 <form action="#" class="add">
                     <div data-close class="modal__close">&times;</div>                    
-                    <div class="promo__interactive-title">TestTable</div>                        
+                    <div class="promo__interactive-title mod">TestTable</div>                        
                     <input class="adding__input form__row" type="text" name="name" placeholder="Input...">
                     <button  class="add__row" type="submit">Add row</button>
                     <button class="add__row">Save</button>

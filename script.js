@@ -1,12 +1,55 @@
+// Тестовое задание:
+// Задание выполняется без использования фреймворков.
+// Используется чистый JavaScrypt (без Jquery) и PHP
+// 1. На странице создать таблицу из одних строчек.
+// В каждой строчке некое произвольное слово.
+// При нажатии на строчку без перегрузки страницы происходит открытие модального окна на весь экран.
+// В модальном окне есть крестик, при нажатии на который происходит закрытие окна.
+// 2. При вторичном открытии модального окна оно должно быть в исходном состоянии.
+// В открытом модальном окне есть шапка таблицы, без тела таблицы.
+// В шапке таблицы её название = тексту из нажатой ранее строчки.
+// Есть кнопка Add row.
+// При нажатии на нее в таблице появляется строка, в которой есть кнопка удаляющая эту строку, при нажатии которой строка пропадает.
+// В строке есть поле ввода общего вида (не использовать type= « number»).
+// На нечетной строке можно вводить целое положительное число больше нуля, на четной текст.
+// Проверку проводить скриптом на чистом JavaScrypt.
+// Внизу таблицы есть место, где выводится сумма введенных чисел.
+
+// 3. Есть кнопка Save.
+// При нажатии кнопки Save, без перегрузки страницы происходит запись данных в БД на сервере.
+// Далее можно продолжать ввод данных, при вторичной записи текст в БД добавляется, а сумма чисел перезаписывается.
+
+// 4. При вторичной загрузке исходной страницы в строчках ее таблицы должны вывестись введенные ранее в модальном окне слова и сумма введенных ранее чисел.
+// Срок выполнения задания 2 дня. Те кто приступит к выполнению пожалуйста сообщите мне чтоб мы его ждали.
+
+// Результат можно представить в одном из двух вариантов.
+// Разместить на сервере и дать доступ к папке, либо прислать в виде файлов
+
 window.addEventListener('DOMContentLoaded', () => {
     
     //Modal
 
     const modalTrigger = document.querySelectorAll('.btn'),  //обращаемся ко всем эллементам, которым мы назначили класс data-modal, если эл. один, то querySelector
-        modal = document.querySelector('.modal');
+          modal = document.querySelector('.modal'),
+          itemList = document.querySelector('.promo__interactive-list'),
+          item = document.querySelectorAll('.promo__interactive-item'),
+          titleModal = document.querySelector('.mod');
+          
+          
+          
+          
+          function titleContent() {
+              titleModal.textContent.splice();
+              titleModal.textContent = this.item.textContent; 
+          }
+          
+          console.log(titleModal.textContent);
 
-    modalTrigger.forEach(item => {           //если однe и тe же модалку вызывают разные кнопки, помеченные нами data-modal, то псевдомассив перебираем forEach
-    item.addEventListener('click', openModal);
+
+    modalTrigger.forEach(item => {           //если одну и ту же модалку вызывают разные кнопки, помеченные нами data-modal, то псевдомассив перебираем forEach
+    // item.forEach(item => {
+        item.addEventListener('click', openModal, titleContent);
+    console.log(item.textContent);     
     });
 
     function closeModal() {                 //чтобы не повторяться, засовываем алгоритм закрывания в функцию
@@ -24,8 +67,8 @@ window.addEventListener('DOMContentLoaded', () => {
         document.body.style.overflow = 'hidden';    
     }
 
-    modal.addEventListener('click',  (e) => {    //не забываем передавать аргумент события event(e)
-        if (e.target === modal || e.target.getAttribute('data-close') == "") {          //добавляем второе условие e.target.getAttribute('data-close') == ''
+    modal.addEventListener('click',  (e) => {    //передаем аргумент события event(e)
+        if (e.target === modal || e.target.getAttribute('data-close') == "") {          //добавляем второе условие e.target.getAttribute('data-close') == ""
             closeModal();                   //при выполнении условия вызываем функцию
         }    
     });
@@ -52,8 +95,7 @@ window.addEventListener('DOMContentLoaded', () => {
 
     
     //Table
-    // const returnRowDB = JSON.parse(localStorage.getItem("name"));
-    // console.log(returnRowDB);
+  
     const rowDB = {      
         rows: [
             "STRING",
@@ -65,12 +107,13 @@ window.addEventListener('DOMContentLoaded', () => {
 
     function loadRow(rowDB){
         const returnRowDB = JSON.parse(localStorage.getItem("name"));
-        if (localStorage.getItem("name") != []) {
-            // rowDB.rows = [returnRowDB];
-            // rowDB.rows.splice(rowDB.rows);
-            rowDB.rows.push(returnRowDB);  //метод добавления в объект
-            console.log(rowDB);
+        if (localStorage.getItem("name") == null) {
+            rowDB;
+        } else {
+            rowDB.rows.splice(rowDB.rows);
+            rowDB.rows.push(returnRowDB);  //метод добавления в объект            
         }
+
     }
         loadRow(rowDB); 
     
@@ -95,7 +138,7 @@ window.addEventListener('DOMContentLoaded', () => {
 
             rowDB.rows.push(myRow);  //метод добавления в объект
             createRowsList(rowDB.rows, tableList);
-            const serialRowDB = JSON.stringify(rowDB);
+            const serialRowDB = JSON.stringify(rowDB.rows);
             localStorage.setItem("name", serialRowDB);   
         }        
        
@@ -108,7 +151,7 @@ window.addEventListener('DOMContentLoaded', () => {
                
         rows.forEach((row, i) => { //даем название массиву и нумерацию списку
         parent.innerHTML += `
-        <li class="promo__interactive-item btn">${i + 1} ${row}
+        <li data-modal class="promo__interactive-item btn">${i + 1} ${row}
            <div class="delete">&times;</div>
         </li>`;
     });
@@ -118,7 +161,7 @@ window.addEventListener('DOMContentLoaded', () => {
             btn.parentElement.remove();         //метод удаления родительского эллемента
             rowDB.rows.splice(i, 1);        //метод удаления из псевдомассива
             createRowsList(rows, parent); //рекурсией переписываем нумерацию, и заменяем аргументы на объявленные, чтобы отвязаться от эллементов.
-            const serialRowDB = JSON.stringify(rowDB);
+            const serialRowDB = JSON.stringify(rowDB.rows);
             localStorage.setItem("name", serialRowDB); 
         });                                 
     });
