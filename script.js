@@ -30,27 +30,33 @@ window.addEventListener('DOMContentLoaded', () => {
     //Modal
 
     const modalTrigger = document.querySelectorAll('.btn'),  //обращаемся ко всем эллементам, которым мы назначили класс data-modal, если эл. один, то querySelector
-          modal = document.querySelector('.modal'),
-          itemList = document.querySelector('.promo__interactive-list'),
-          item = document.querySelectorAll('.promo__interactive-item'),
+          modal = document.querySelector('.modal'),          
+          item = document.querySelectorAll('.btn-item'),
           titleModal = document.querySelector('.mod');
           
           
           
           
           function titleContent() {
-              titleModal.textContent.splice();
-              titleModal.textContent = this.item.textContent; 
+              titleModal.textContent.remove();
+              titleModal.textContent = this.item.textContent;              
           }
           
-          console.log(titleModal.textContent);
+        //   console.log(titleModal.textContent);
 
 
-    modalTrigger.forEach(item => {           //если одну и ту же модалку вызывают разные кнопки, помеченные нами data-modal, то псевдомассив перебираем forEach
-    // item.forEach(item => {
-        item.addEventListener('click', openModal, titleContent);
-    console.log(item.textContent);     
+    modalTrigger.forEach(b => {           //если одну и ту же модалку вызывают разные кнопки, помеченные нами data-modal, то псевдомассив перебираем forEach        
+        b.addEventListener('click', openModal);
+        console.log(modalTrigger);       
     });
+
+    // itemList.forEach((item, i) => {
+    //     item.addEventListener('click', () => {
+    //         titleContent;
+
+
+    //     });
+    // });
 
     function closeModal() {                 //чтобы не повторяться, засовываем алгоритм закрывания в функцию
         modal.classList.add('hide');
@@ -106,14 +112,13 @@ window.addEventListener('DOMContentLoaded', () => {
     };
 
     function loadRow(rowDB){
-        const returnRowDB = JSON.parse(localStorage.getItem("name"));
-        if (localStorage.getItem("name") == null) {
+        const returnRowDB = JSON.parse(localStorage.getItem("rows"));
+        if (localStorage.getItem("rows") == null) {
             rowDB;
         } else {
-            rowDB.rows.splice(rowDB.rows);
-            rowDB.rows.push(returnRowDB);  //метод добавления в объект            
+            rowDB.rows.splice(rowDB.rows);            
+            rowDB.rows = returnRowDB;           
         }
-
     }
         loadRow(rowDB); 
     
@@ -139,7 +144,7 @@ window.addEventListener('DOMContentLoaded', () => {
             rowDB.rows.push(myRow);  //метод добавления в объект
             createRowsList(rowDB.rows, tableList);
             const serialRowDB = JSON.stringify(rowDB.rows);
-            localStorage.setItem("name", serialRowDB);   
+            localStorage.setItem("rows", serialRowDB);            
         }        
        
         e.target.reset();
@@ -151,9 +156,10 @@ window.addEventListener('DOMContentLoaded', () => {
                
         rows.forEach((row, i) => { //даем название массиву и нумерацию списку
         parent.innerHTML += `
-        <li data-modal class="promo__interactive-item btn">${i + 1} ${row}
-           <div class="delete">&times;</div>
-        </li>`;
+        <li data-modal class="promo__interactive-item btn btn-item">${i + 1} ${row}
+            <div class="delete">&times;</div>
+        </li>
+        `;
     });
     
     document.querySelectorAll('.delete').forEach((btn, i) => {
@@ -162,7 +168,15 @@ window.addEventListener('DOMContentLoaded', () => {
             rowDB.rows.splice(i, 1);        //метод удаления из псевдомассива
             createRowsList(rows, parent); //рекурсией переписываем нумерацию, и заменяем аргументы на объявленные, чтобы отвязаться от эллементов.
             const serialRowDB = JSON.stringify(rowDB.rows);
-            localStorage.setItem("name", serialRowDB); 
+            localStorage.setItem("rows", serialRowDB);
+            if (modal.classList.contains('show')) {
+                modal.classList.remove('show');
+                modal.classList.add('hide');
+            }  
+            
+            // closeModal();
+            // modal.classList.remove('show');
+            // modal.classList.add('hide'); 
         });                                 
     });
     }
