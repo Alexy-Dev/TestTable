@@ -31,32 +31,40 @@ window.addEventListener('DOMContentLoaded', () => {
 
     const modalTrigger = document.querySelectorAll('.btn'),  //обращаемся ко всем эллементам, которым мы назначили класс data-modal, если эл. один, то querySelector
           modal = document.querySelector('.modal'),          
-          item = document.querySelectorAll('.btn-item'),
-          titleModal = document.querySelector('.mod');
+          items = document.querySelectorAll('.btn-item'),
+          calc = document.querySelector('.calculating__result span'),
+          titleModal = document.querySelector('.mod');        
           
           
           
           
-          function titleContent() {
-              titleModal.textContent.remove();
-              titleModal.textContent = this.item.textContent;              
-          }
-          
-        //   console.log(titleModal.textContent);
+        // titleModal.textContent.splice();
+          console.log(calc.textContent);
 
 
-    modalTrigger.forEach(b => {           //если одну и ту же модалку вызывают разные кнопки, помеченные нами data-modal, то псевдомассив перебираем forEach        
-        b.addEventListener('click', openModal);
-        console.log(modalTrigger);       
+    modalTrigger.forEach(items => {           //если одну и ту же модалку вызывают разные кнопки, помеченные нами data-modal, то псевдомассив перебираем forEach        
+        items.addEventListener('click', (e) => {
+            let item = e.target.closest('.btn'),
+                content = e.target.textContent; // (1)
+          
+            if (!item) return; // (2)
+          
+            if (!items.contains(item)) return; // (3)
+          
+            titleModal.textContent = content;
+            openModal(item); // (4)
+            
+          });
+           
     });
 
-    // itemList.forEach((item, i) => {
-    //     item.addEventListener('click', () => {
-    //         titleContent;
 
-
-    //     });
-    // });
+    function openModal() {                  //чтобы не повторяться, засовываем алгоритм открывания в функцию
+        modal.classList.add('show');   
+        modal.classList.remove('hide');
+        document.body.style.overflow = 'hidden';
+        // console.log(this.items.target.value);    
+    }
 
     function closeModal() {                 //чтобы не повторяться, засовываем алгоритм закрывания в функцию
         modal.classList.add('hide');
@@ -65,12 +73,6 @@ window.addEventListener('DOMContentLoaded', () => {
         formRow.classList.add('hide');
         addRow.classList.remove('hide');
 
-    }
-
-    function openModal() {                  //чтобы не повторяться, засовываем алгоритм открывания в функцию
-        modal.classList.add('show');   
-        modal.classList.remove('hide');
-        document.body.style.overflow = 'hidden';    
     }
 
     modal.addEventListener('click',  (e) => {    //передаем аргумент события event(e)
@@ -156,7 +158,7 @@ window.addEventListener('DOMContentLoaded', () => {
                
         rows.forEach((row, i) => { //даем название массиву и нумерацию списку
         parent.innerHTML += `
-        <li data-modal class="promo__interactive-item btn btn-item">${i + 1} ${row}
+        <li data-modal class="promo__interactive-item btn-item">${i + 1} <span>${row}</span>
             <div class="delete">&times;</div>
         </li>
         `;
@@ -172,17 +174,34 @@ window.addEventListener('DOMContentLoaded', () => {
             if (modal.classList.contains('show')) {
                 modal.classList.remove('show');
                 modal.classList.add('hide');
-            }  
-            
-            // closeModal();
-            // modal.classList.remove('show');
-            // modal.classList.add('hide'); 
+            }      
         });                                 
     });
     }
            
     createRowsList(rowDB.rows, tableList);
     
+    // function titleContent() {
+    //     //   let item = this.items.value;
+    //     items.forEach(i => {
+    //           i.addEventListener('submit', () => {
+    //             titleModal.textContent.remove();
+    //             // e.titleModal.textContent = i.items.textContent;
+    //             // e.titleModal.textContent = item.textContent.value; 
+                
+
+    //           });
+    //           console.log(titleModal.textContent);
+
+    //       });
+                       
+    //   }
+    //   titleContent();
+    console.log(titleModal.textContent);
+
+    
+    
+
    
     // localStorage
 
