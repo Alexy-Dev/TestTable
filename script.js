@@ -31,7 +31,7 @@ window.addEventListener('DOMContentLoaded', () => {
 
     const modalTrigger = document.querySelectorAll('.btn'),  //обращаемся ко всем эллементам, которым мы назначили класс data-modal, если эл. один, то querySelector
           modal = document.querySelector('.modal'),          
-          items = document.querySelectorAll('.btn-item'),
+          items = document.querySelectorAll('.btn-item span'),
           calc = document.querySelector('.calculating__result span'),
           titleModal = document.querySelector('.mod');        
           
@@ -39,7 +39,7 @@ window.addEventListener('DOMContentLoaded', () => {
           
           
         // titleModal.textContent.splice();
-          console.log(calc.textContent);
+        //   console.log(calc.textContent);
 
 
     modalTrigger.forEach(items => {           //если одну и ту же модалку вызывают разные кнопки, помеченные нами data-modal, то псевдомассив перебираем forEach        
@@ -62,8 +62,7 @@ window.addEventListener('DOMContentLoaded', () => {
     function openModal() {                  //чтобы не повторяться, засовываем алгоритм открывания в функцию
         modal.classList.add('show');   
         modal.classList.remove('hide');
-        document.body.style.overflow = 'hidden';
-        // console.log(this.items.target.value);    
+        document.body.style.overflow = 'hidden';    
     }
 
     function closeModal() {                 //чтобы не повторяться, засовываем алгоритм закрывания в функцию
@@ -146,7 +145,8 @@ window.addEventListener('DOMContentLoaded', () => {
             rowDB.rows.push(myRow);  //метод добавления в объект
             createRowsList(rowDB.rows, tableList);
             const serialRowDB = JSON.stringify(rowDB.rows);
-            localStorage.setItem("rows", serialRowDB);            
+            localStorage.setItem("rows", serialRowDB);
+            sum();            
         }        
        
         e.target.reset();
@@ -171,6 +171,7 @@ window.addEventListener('DOMContentLoaded', () => {
             createRowsList(rows, parent); //рекурсией переписываем нумерацию, и заменяем аргументы на объявленные, чтобы отвязаться от эллементов.
             const serialRowDB = JSON.stringify(rowDB.rows);
             localStorage.setItem("rows", serialRowDB);
+            sum();
             if (modal.classList.contains('show')) {
                 modal.classList.remove('show');
                 modal.classList.add('hide');
@@ -180,65 +181,36 @@ window.addEventListener('DOMContentLoaded', () => {
     }
            
     createRowsList(rowDB.rows, tableList);
-    
-    // function titleContent() {
-    //     //   let item = this.items.value;
-    //     items.forEach(i => {
-    //           i.addEventListener('submit', () => {
-    //             titleModal.textContent.remove();
-    //             // e.titleModal.textContent = i.items.textContent;
-    //             // e.titleModal.textContent = item.textContent.value; 
-                
 
-    //           });
-    //           console.log(titleModal.textContent);
-
-    //       });
-                       
-    //   }
-    //   titleContent();
-    console.log(titleModal.textContent);
-
-    
-    
-
-   
-    // localStorage
-
-    // const result = document.querySelector('.calculating__result span'),
-    //       inputValue = document.querySelector('addInput');
-
-    //       let name = addInput.value;
-    
-    //       if (localStorage.getItem('name')) {               //работа с локальным хранилищем
-    //         name = localStorage.getItem('name'); 
-    //         } else {
-    //         name = 'num';
-    //         localStorage.setItem('name', 'num');
-    //         }
-
-            
-    //         function initLocalSettings(selector){
-    //             const elements = document.querySelectorAll(selector);
-
-    //             elements.forEach(elem => {
-    //                 elem.classList.remove(activeClass);
-    //                 if (elem.getAttribute('id') === localStorage.getItem('name')) {
-    //                     elem.classList.add(table.item);
-    //                 }
-                   
-    //             });
-    //         }
-      
-    // initLocalSettings('#name');
-    // initLocalSettings('#id');
-
-   
     //CALCULATOR
     
-    //const nums = [29.76, 41.85, 46.5];
+    
     // const sum = nums.reduce((total, amount) => total + amount); 
-    // console.log(sum) // 118.11
+    // console.log(sum);
+    console.log(items);
+    console.log(rowDB.rows);
+    console.log(calc.textContent);
+
+    function sum() {
+        const rows_nums = rowDB.rows.map(rows => {       
+                  
+        // num.style.border = '1px solid red';  //добавляем инлайн стили
+        
+        if (rows.match(/\D/g)) {    //если содержимое ячейки не число
+            rows = 0;
+        } else {
+            rows = rows;
+        }        
+        return rows; 
+        
+        });
+        console.log(rows_nums);
+
+        calc.textContent = rows_nums.reduce((total, num) => +total + +num);            
+        
+    }
+    sum();
+
 
 
     // function calcTotal() {
@@ -305,4 +277,67 @@ window.addEventListener('DOMContentLoaded', () => {
     // } 
     // getDynamicInformation('rows');    
 
+    
+    // function titleContent() {
+    //     //   let item = this.items.value;
+    //     items.forEach(i => {
+    //           i.addEventListener('submit', () => {
+    //             titleModal.textContent.remove();
+    //             // e.titleModal.textContent = i.items.textContent;
+    //             // e.titleModal.textContent = item.textContent.value; 
+                
+
+    //           });
+    //           console.log(titleModal.textContent);
+
+    //       });
+                       
+    //   }
+    //   titleContent();
+    // console.log(titleModal.textContent);
+
+    
+    
+
+   
+    // localStorage
+
+    // const result = document.querySelector('.calculating__result span'),
+    //       inputValue = document.querySelector('addInput');
+
+    //       let name = addInput.value;
+    
+    //       if (localStorage.getItem('name')) {               //работа с локальным хранилищем
+    //         name = localStorage.getItem('name'); 
+    //         } else {
+    //         name = 'num';
+    //         localStorage.setItem('name', 'num');
+    //         }
+
+            
+    //         function initLocalSettings(selector){
+    //             const elements = document.querySelectorAll(selector);
+
+    //             elements.forEach(elem => {
+    //                 elem.classList.remove(activeClass);
+    //                 if (elem.getAttribute('id') === localStorage.getItem('name')) {
+    //                     elem.classList.add(table.item);
+    //                 }
+                   
+    //             });
+    //         }
+      
+    // initLocalSettings('#name');
+    // initLocalSettings('#id');
+    
+//     var a = [];
+// a[0] = "a";
+// a[10] = "b";
+// a[10000] = "c";
+// for (var key in a) {
+//     if (/^0$|^[1-9]\d*$/.test(key) &&
+//         key >= 0) {
+//         console.log(a[key]);
+//     }
+// }
 });
