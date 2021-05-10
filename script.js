@@ -44,7 +44,7 @@ window.addEventListener('DOMContentLoaded', () => {
 
     modalTrigger.forEach(items => {           //если одну и ту же модалку вызывают разные кнопки, помеченные нами data-modal, то псевдомассив перебираем forEach        
         items.addEventListener('click', (e) => {
-            let item = e.target.closest('.btn'),
+            let item = e.target.closest('.btn'),      //прописываем логику отражения значения ячейки в заглавии открываемой таблицы
                 content = e.target.textContent; // (1)
           
             if (!item) return; // (2)
@@ -59,13 +59,13 @@ window.addEventListener('DOMContentLoaded', () => {
     });
 
 
-    function openModal() {                  //чтобы не повторяться, засовываем алгоритм открывания в функцию
+    function openModal() {                  //засовываем алгоритм открывания в функцию
         modal.classList.add('show');   
         modal.classList.remove('hide');
         document.body.style.overflow = 'hidden';    
     }
 
-    function closeModal() {                 //чтобы не повторяться, засовываем алгоритм закрывания в функцию
+    function closeModal() {                 //засовываем алгоритм закрывания в функцию
         modal.classList.add('hide');
         modal.classList.remove('show');              
         document.body.style.overflow = '';
@@ -114,7 +114,7 @@ window.addEventListener('DOMContentLoaded', () => {
 
     function loadRow(rowDB){
         const returnRowDB = JSON.parse(localStorage.getItem("rows"));
-        if (localStorage.getItem("rows") == null) {
+        if (localStorage.getItem("rows") == null || localStorage.getItem("value") == []) {
             rowDB;
         } else {
             rowDB.rows.splice(rowDB.rows);            
@@ -130,16 +130,29 @@ window.addEventListener('DOMContentLoaded', () => {
     addForm.addEventListener('submit', (e) => {
         e.preventDefault();                     //метод не перезагружать страницу
     
-        let myRow = addInput.value;
+        let myRow = addInput.value,
+            myInput = addInput.type;
 
-        // if (id.item % 2 == 0) {
-        //     inputAdd.type = 'number';
-        // }
-            
+              
         if (myRow) {                        //проверка условия булеановым значением   
     
             if (myRow.length > 11) {       //добавляем в аргумент условие
                 myRow = `${myRow.substring(0, 12)}...`;   //указываем интерполяцией что делать.
+            }
+            if ((rowDB.rows.length - 1) % 2 == 0) {     ////прописываем алгоритм назначения типа инпута
+                myInput = 'number';
+            } else {
+                myInput = 'text';
+            }
+            if (myInput == 'number' && myRow.match(/\D/g)) {
+                addInput.style.border = '1px solid red';
+                e.target.reset();
+                return;                
+            }
+            if (myInput == 'text' && myRow.match(/\d/g)) {
+                addInput.style.border = '1px solid red';
+                e.target.reset();
+                return;
             }
 
             rowDB.rows.push(myRow);  //метод добавления в объект
@@ -150,6 +163,8 @@ window.addEventListener('DOMContentLoaded', () => {
         }        
        
         e.target.reset();
+        console.log(myInput);
+        console.log(rowDB.rows.length);
     
     });
     
@@ -183,18 +198,12 @@ window.addEventListener('DOMContentLoaded', () => {
     createRowsList(rowDB.rows, tableList);
 
     //CALCULATOR
+    // console.log(items);
+    // console.log(rowDB.rows.length);
     
-    
-    // const sum = nums.reduce((total, amount) => total + amount); 
-    // console.log(sum);
-    console.log(items);
-    console.log(rowDB.rows);
-    console.log(calc.textContent);
 
-    function sum() {
-        const rows_nums = rowDB.rows.map(rows => {       
-                  
-        // num.style.border = '1px solid red';  //добавляем инлайн стили
+    function sum() {                                //засовываем алгоритм калькулятора в функцию
+        const rows_nums = rowDB.rows.map(rows => {
         
         if (rows.match(/\D/g)) {    //если содержимое ячейки не число
             rows = 0;
@@ -206,22 +215,10 @@ window.addEventListener('DOMContentLoaded', () => {
         });
         console.log(rows_nums);
 
-        calc.textContent = rows_nums.reduce((total, num) => +total + +num);            
-        
+        calc.textContent = rows_nums.reduce((total, num) => +total + +num);
     }
     sum();
-
-
-
-    // function calcTotal() {
-    //     if (name === 'str') {
-    //         result.textContent;
-    //     } if (name === 'num') {
-    //         result.textContent = ++addInput.value;
-    //     }
-    // }
-    // calcTotal(i = 0);
-
+   
     // function getStaticInformation(selector) {            //получение данных со статичных объектов
     //     const elements = document.querySelectorAll(selector);
 
