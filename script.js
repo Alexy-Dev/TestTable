@@ -114,7 +114,7 @@ window.addEventListener('DOMContentLoaded', () => {
 
     function loadRow(rowDB){
         const returnRowDB = JSON.parse(localStorage.getItem("rows"));
-        if (localStorage.getItem("rows") == null || localStorage.getItem("value") == []) {
+        if (localStorage.getItem("rows") == null) {
             rowDB;
         } else {
             rowDB.rows.splice(rowDB.rows);            
@@ -141,18 +141,26 @@ window.addEventListener('DOMContentLoaded', () => {
             }
             if ((rowDB.rows.length - 1) % 2 == 0) {     ////прописываем алгоритм назначения типа инпута
                 myInput = 'number';
+                addInput.placeholder = 'word';
             } else {
                 myInput = 'text';
+                addInput.placeholder = 'number';
             }
             if (myInput == 'number' && myRow.match(/\D/g)) {
                 addInput.style.border = '1px solid red';
+                addInput.placeholder = 'wright number';
                 e.target.reset();
                 return;                
+            } else {
+                addInput.style.border = '1px solid black';
             }
             if (myInput == 'text' && myRow.match(/\d/g)) {
                 addInput.style.border = '1px solid red';
+                addInput.placeholder = 'wright word';
                 e.target.reset();
                 return;
+            } else {
+                addInput.style.border = '1px solid black';
             }
 
             rowDB.rows.push(myRow);  //метод добавления в объект
@@ -182,7 +190,9 @@ window.addEventListener('DOMContentLoaded', () => {
     document.querySelectorAll('.delete').forEach((btn, i) => {
         btn.addEventListener('click', () => {               //навешиваем обработчик события
             btn.parentElement.remove();         //метод удаления родительского эллемента
-            rowDB.rows.splice(i, 1);        //метод удаления из псевдомассива
+            if (rowDB.rows.length > 1) {        //условие для остановки удаления при 1 оставшемся эллементе
+            rowDB.rows.splice(i, 1);        //метод удаления из псевдомассива 
+            }
             createRowsList(rows, parent); //рекурсией переписываем нумерацию, и заменяем аргументы на объявленные, чтобы отвязаться от эллементов.
             const serialRowDB = JSON.stringify(rowDB.rows);
             localStorage.setItem("rows", serialRowDB);
@@ -272,66 +282,14 @@ window.addEventListener('DOMContentLoaded', () => {
     //         calcTotal();        
     //     });        
     // } 
-    // getDynamicInformation('rows');    
+    // getDynamicInformation('rows'); 
 
     
-    // function titleContent() {
-    //     //   let item = this.items.value;
-    //     items.forEach(i => {
-    //           i.addEventListener('submit', () => {
-    //             titleModal.textContent.remove();
-    //             // e.titleModal.textContent = i.items.textContent;
-    //             // e.titleModal.textContent = item.textContent.value; 
-                
-
-    //           });
-    //           console.log(titleModal.textContent);
-
-    //       });
-                       
-    //   }
-    //   titleContent();
-    // console.log(titleModal.textContent);
-
-    
-    
-
-   
-    // localStorage
-
-    // const result = document.querySelector('.calculating__result span'),
-    //       inputValue = document.querySelector('addInput');
-
-    //       let name = addInput.value;
-    
-    //       if (localStorage.getItem('name')) {               //работа с локальным хранилищем
-    //         name = localStorage.getItem('name'); 
-    //         } else {
-    //         name = 'num';
-    //         localStorage.setItem('name', 'num');
-    //         }
-
-            
-    //         function initLocalSettings(selector){
-    //             const elements = document.querySelectorAll(selector);
-
-    //             elements.forEach(elem => {
-    //                 elem.classList.remove(activeClass);
-    //                 if (elem.getAttribute('id') === localStorage.getItem('name')) {
-    //                     elem.classList.add(table.item);
-    //                 }
-                   
-    //             });
-    //         }
-      
-    // initLocalSettings('#name');
-    // initLocalSettings('#id');
-    
-//     var a = [];
+//     let a = [];
 // a[0] = "a";
 // a[10] = "b";
 // a[10000] = "c";
-// for (var key in a) {
+// for (let key in a) {
 //     if (/^0$|^[1-9]\d*$/.test(key) &&
 //         key >= 0) {
 //         console.log(a[key]);
